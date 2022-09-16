@@ -11,12 +11,12 @@ import * as PostController from './controllers/PostController.js'
 import handleValidationErrors from './utils/handleValidationErrors.js'
 
 mongoose.connect(
-    'mongodb+srv://User:danich2000@cluster0.u6kqli9.mongodb.net/blog?retryWrites=true&w=majority'
+    process.env.MONGODB_URI
 ).then(() => console.log("DB ok"))
     .catch(err => console.log(err))
 
 const app = express()
-
+ 
 app.use(express.json())
 app.use(cors())
 app.use('/uploads', express.static('uploads'))
@@ -52,7 +52,7 @@ app.delete('/posts/:id', checkAuth, PostController.remove)
 app.patch('/posts/:id', checkAuth, postCreateValidation, handleValidationErrors, PostController.update)
 
 
-app.listen(4444, (err) => {
+app.listen( process.env.PORT ||4444, (err) => {
     if (err) {
         return console.log(err)
     }
